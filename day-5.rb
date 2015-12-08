@@ -1,4 +1,4 @@
-result = %w(
+strings = %w(
   zgsnvdmlfuplrubt
   vlhagaovgqjmgvwq
   ffumlmqwfcsyqpss
@@ -999,23 +999,50 @@ result = %w(
   pxdfvcpvwaddrzwv
   phdqqxleqdjfgfbg
   cqfikbgxvjmnfncy
-).each_with_object({ count: 0 }).with_index do |(str, obj), i|
-  no_bad_words = lambda do |string|
+)
+
+result_1 = strings.each_with_object({ count: 0 }).with_index do |(str, obj), i|
+  rule_1 = lambda do |string|
     return string.match(/ab|cd|pq|xy/) ? false : true
   end
 
-  three_vowels = lambda do |string|
+  rule_2 = lambda do |string|
     string.chars.select { |c| %w(a e i o u).include? c }.count >= 3
   end
 
-  twice = lambda do |string|
+  rule_3 = lambda do |string|
     string.chars.each_with_index do |c, i|
       return true if c == string[i + 1]
     end
     return false
   end
 
-  obj[:count] += 1 if no_bad_words.call(str) && three_vowels.call(str) && twice.call(str)
+  obj[:count] += 1 if rule_1.call(str) && rule_2.call(str) && rule_3.call(str)
 end
 
-puts "Nice strings: #{result[:count]}" # Nice strings: 238
+puts "Nice strings: #{result_1[:count]}" # Nice strings: 238
+
+result_2 = strings.each_with_object({ count: 0 }).with_index do |(str, obj), i|
+  rule_1 = lambda do |string|
+    string.size.times do |i|
+      slice = string.slice(i, 2)
+      next if slice.size < 2
+      return true if string.scan(slice).count == 2
+    end
+
+    return false
+  end
+
+  rule_2 = lambda do |string|
+    string.size.times do |i|
+      slice = string.slice(i, 3)
+      return true if slice[0] == slice[2]
+    end
+
+    return false
+  end
+
+  obj[:count] += 1 if rule_1.call(str) && rule_2.call(str)
+end
+
+puts "Nice strings: #{result_2[:count]}" # Nice strings: 69
