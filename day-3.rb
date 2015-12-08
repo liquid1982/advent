@@ -25,4 +25,4 @@ result_2 = directions.chars.each_with_object({ santa: [[0, 0]], robosanta: [[0, 
   end
 end
 
-puts "The year after, with Robo-Santa: %s" % (result_2[:santa] | result_2[:robosanta]).count
+puts "The year after, with Robo-Santa: %s" % (result_2[:santa] | result_2[:robosanta]).count # The year after, with Robo-Santa: 2341
