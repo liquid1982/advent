@@ -301,11 +301,8 @@ instructions = %(
   toggle 628,958 through 811,992
 )
 
-# size = 3
-# instructions = "turn on 0,0 through 2,2"
 size = 1000
-
-grid = Array.new(size, Array.new(size, false))
+grid = Array.new(size) { Array.new(size, false) }
 
 result = instructions.lines.each_with_object(grid) do |instruction, grid|
   instruction.strip!
@@ -319,33 +316,22 @@ result = instructions.lines.each_with_object(grid) do |instruction, grid|
   when 'turn on'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        # puts "turn on i = #{i}, j = #{j}"
         grid[i][j] = true
       end
     end
   when 'turn off'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        # puts "turn off i = #{i}, j = #{j}"
         grid[i][j] = false
       end
     end
   when 'toggle'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        # puts "toggle i = #{i}, j = #{j}"
         grid[i][j] = !grid[i][j]
       end
     end
   end
 end
 
-puts grid.flatten.select { |el| el }.count
-
-## Y U NO WORK
-# size = 100
-# grid = Array.new(size, Array.new(size, false))
-# grid[0][0] # false
-# grid[0][0] = true
-# grid[0][0] # true
-# grid[1][0] # true! WTF!!!
+puts grid.flatten.select { |el| el }.count # 569999
