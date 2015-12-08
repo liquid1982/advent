@@ -8,10 +8,9 @@ loop do
   hash = Digest::MD5.hexdigest "ckczppom#{i}"
 
   if hash.start_with? starting_with
-    puts "Hash matches with #{i}! (#{hash})" # 117946, 3938038
+    puts "Our number is #{i}! (#{hash})" # 117946, 3938038
     break
-  else
-    puts "Hash does not match with #{i}. (#{hash})"
-    i += 1
   end
+
+  i += 1
 end

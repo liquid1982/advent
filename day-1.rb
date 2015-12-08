@@ -6,4 +6,4 @@ result = %{
   obj[:position] = i + 1 if obj[:position].nil? && obj[:floor] == -1
 end
 
-puts "Floor: #{result[:floor]}, Position: #{result[:position]}" # Floor: 232, Position: 1783"
+puts "Floor: #{result[:floor]}, Position: #{result[:position]}" # Floor: 232, Position: 1783
