@@ -340,7 +340,7 @@ result = instructions.lines.each_with_object(grid) do |instruction, grid|
   end
 end
 
-puts grid.flatten.select { |i| i == true }.count
+puts grid.flatten.select { |el| el }.count
 
 ## Y U NO WORK
 # size = 100
