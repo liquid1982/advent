@@ -302,9 +302,10 @@ instructions = %(
 )
 
 size = 1000
-grid = Array.new(size) { Array.new(size, false) }
+grid_1 = Array.new(size) { Array.new(size, false) }
+grid_2 = Array.new(size) { Array.new(size, 0) }
 
-result = instructions.lines.each_with_object(grid) do |instruction, grid|
+result_1 = instructions.lines.each_with_object(grid_1) do |instruction, obj|
   instruction.strip!
   next if instruction.empty?
   matches = instruction.match(/(turn on|turn off|toggle) (.*) through (.*)/)
@@ -316,22 +317,54 @@ result = instructions.lines.each_with_object(grid) do |instruction, grid|
   when 'turn on'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        grid[i][j] = true
+        obj[i][j] = true
       end
     end
   when 'turn off'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        grid[i][j] = false
+        obj[i][j] = false
       end
     end
   when 'toggle'
     start_range[0].upto(end_range[0]) do |i|
       start_range[1].upto(end_range[1]) do |j|
-        grid[i][j] = !grid[i][j]
+        obj[i][j] = !obj[i][j]
       end
     end
   end
 end
 
-puts grid.flatten.select { |el| el }.count # 569999
+puts result_1.flatten.select { |el| el }.count # 569999
+
+result_2 = instructions.lines.each_with_object(grid_2) do |instruction, obj|
+  instruction.strip!
+  next if instruction.empty?
+  matches = instruction.match(/(turn on|turn off|toggle) (.*) through (.*)/)
+  command = matches[1]
+  start_range = matches[2].split(',').map(&:to_i)
+  end_range = matches[3].split(',').map(&:to_i)
+
+  case command
+  when 'turn on'
+    start_range[0].upto(end_range[0]) do |i|
+      start_range[1].upto(end_range[1]) do |j|
+        obj[i][j] = obj[i][j] + 1
+      end
+    end
+  when 'turn off'
+    start_range[0].upto(end_range[0]) do |i|
+      start_range[1].upto(end_range[1]) do |j|
+        obj[i][j] = obj[i][j] > 1 ? obj[i][j] - 1 : 0
+      end
+    end
+  when 'toggle'
+    start_range[0].upto(end_range[0]) do |i|
+      start_range[1].upto(end_range[1]) do |j|
+        obj[i][j] = obj[i][j] + 2
+      end
+    end
+  end
+end
+
+puts result_2.flatten.inject(:+) # 17836115
